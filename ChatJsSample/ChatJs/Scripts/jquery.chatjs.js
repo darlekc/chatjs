@@ -1,4 +1,22 @@
-﻿// CHAT CONTAINER
+﻿/**
+ * ChatJS 1.0
+ * www.chatjs.net
+ * 
+ * Copyright (c) 2013, André Pena
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms,
+ * with or without modification, are permitted provided
+ * that the following conditions are met:
+ * 
+ *     - Redistributions of source code must retain the above copyright notice,
+ *       this list of conditions and the following disclaimer.
+ * 
+ *     - The software containing ChatJS must not directly or indirectly charge the
+ *       end user at any plan. Otherwise a commercial license is required.
+ **/
+
+// CHAT CONTAINER
 (function ($) {
     function ChatContainer(options) {
         /// <summary>This is a window container, responsible for hosting both the users list and the chat window </summary>
