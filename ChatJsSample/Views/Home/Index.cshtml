@@ -59,7 +59,7 @@
             <div class="hero-text">
                 <img src="/Content/Images/logo.png" />
                 <h1>Embed instant messaging into your Web App!</h1>
-                <p>
+                <p class="info">
                     ChatJS is a full-featured, lightweight, Facebook style jQuery plugin for instant messaging. ChatJS also comes with a server side implementation
                         for ASP.NET/SignalR out of the box.
                 </p>
@@ -73,6 +73,9 @@
                     <a id="joinChatButton" href="#" class="btn btn-info btn-large">Join demo chat</a>
                     <img class="callout" src="/Content/Images/callout.png" />
                 }
+                <p class="github">
+                    ... or visit the <a href="https://github.com/andrerpena/chatjs">project at GitHub</a>.
+                </p>
             </div>
             <div class="screenshot-wrapper">
                 <img src="/Content/Images/screenshot.png" />
@@ -87,7 +90,7 @@
                 </h4>
                 <p>
                     The client part is divided in two JavaScript files.
-                    The file <span class="text-info">jquery.chatjs.js</span> contains the main jQuery plugin <code>$.chat()</code> and <span class="text-info">jquery.chatjs.signalradapter.js</span> contains
+                    The file <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJs/Scripts/jquery.chatjs.js">jquery.chatjs.js</a> contains the main jQuery plugin <code>$.chat()</code> and <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJs/Scripts/jquery.chatjs.signalradapter.js">jquery.chatjs.signalradapter.js</a> contains
                     the adapter function needed to tell the plug-in how to interact with the server.
                 </p>
                 <p>Once the server is set up, the client code is quite simple. These are all the options:</p>
@@ -132,7 +135,7 @@ $.chat({
                 <h4>The server</h4>
                 <p>
                     As I said, ChatJS only works out of the box with <a href="http://signalr.net/">ASP.NET with SignalR</a>, so, this manual will be focused in this scenario.
-                    Everything that I'll explain here is implemented already in the demo application available in the <a href="#">ChatJS package</a>. It's highly recommended that
+                    Everything that I'll explain here is implemented already in the demo application available in the <a href="https://github.com/andrerpena/chatjs/archive/chatjs-main.zip">ChatJS package</a>. It's highly recommended that
                     will download that before continuing with this manual. First thing to do is to download SignalR if you haven't already. To do so, in Visual Studio, select the Tools menu, and then Library Package Manager and then select Package Manager console. Now type in the following line: 
                 </p>
                 <pre class="prettyprint">Install-Package Microsoft.AspNet.SignalR</pre>
@@ -255,7 +258,7 @@ $.chat({
                 <p>ChatJS is open-source and licensed under a non-comercial BSD license.</p>
                 <p>
                     In plain English: You are free to use, modify and distribute ChatJS as long as you don't remove the license info from the files and as long as you
-                    don't directly or indirectly charge your users. In this case you need a commercial license. ChatJS license is available online.
+                    don't directly or indirectly charge your users. In this case you need a commercial license. ChatJS license is <a href="https://github.com/andrerpena/chatjs/blob/chatjs-main/ChatJs/license.txt">available online</a>.
                 </p>
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
                     <input type="hidden" name="cmd" value="_s-xclick">
