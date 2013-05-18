@@ -90,9 +90,7 @@
                     The file <span class="text-info">jquery.chatjs.js</span> contains the main jQuery plugin <code>$.chat()</code> and <span class="text-info">jquery.chatjs.signalradapter.js</span> contains
                     the adapter function needed to tell the plug-in how to interact with the server.
                 </p>
-                <div class="bs-docs-example">
-                    <p>Once the server is set up, the client code is quite simple. The complete usage with all options is this:</p>
-                </div>
+                <p>Once the server is set up, the client code is quite simple. These are all the options:</p>
                 <pre class="prettyprint ">
 $.chat({
     // your user information
@@ -116,10 +114,9 @@ $.chat({
                 <h4>Features:</h4>
                 <ul class="green-checks">
                     <li>Real time message sharing (Oh really?).</li>
-                    <li>Displays a list of users and, as the user select another user to chat, a separate JavaScript window is opened, which can be closed and minimized. Yes, like Facebook =)</li>
-                    <li>Automatically remembers opened windows and their minimized state across diferent requests (though cookies).</li>
+                    <li>Automatically remembers opened windows across diferent requests (through cookies).</li>
                     <li>Triggers a sound notification when the user receives a message.</li>
-                    <li>Indicates when another using is typing.</li>
+                    <li>Indicates when the other user is typing.</li>
                     <li>Supports multiple chat rooms. If you have a multi-tenancy app you can create a room for each tenancy, for instance.</li>
                     <li>Supports multiple browser windows opened with the same session. They all get properly sinchronized.</li>
                     <li>Customizable texts. You can easily translate it to your language.</li>
