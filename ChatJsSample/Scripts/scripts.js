@@ -2,21 +2,22 @@
 
 $(document).ready(function () {
     prettyPrint();
-    
-    
 
-    $("#joinChatButton").click(function () {
+    $("#joinChatButton").click(function (e) {
+        e.preventDefault();
         $("#loginModal").modal('show');
         $("#loginModal").on('shown', function () {
             $("#userName").focus();
         });
     });
     
-    $("#leaveChatButton").click(function () {
+    $("#leaveChatButton").click(function (e) {
+        e.preventDefault();
         window.location = "/Home/LeaveChat";
     });
 
-    $("#joinChatConclusionButton").click(function () {
+    $("#joinChatConclusionButton").click(function (e) {
+        e.preventDefault();
         var $userName = $("#userName");
         var $email = $("#email");
 

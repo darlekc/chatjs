@@ -162,3 +162,14 @@ table {
         padding-top: 15px;
     }
 
+
+pre.prettyprint {
+    border: 1px solid #DDDDDD;
+    padding: 6px;
+}
+
+footer {
+    color: #666666;
+    font: 14px/100px 'District Thin',helvetica,arial;
+    text-align: center;
+}

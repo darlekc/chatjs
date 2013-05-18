@@ -146,7 +146,7 @@
     <Content Include="ChatJs\Images\chat-online.png" />
     <Content Include="ChatJs\Images\clear.png" />
     <Content Include="ChatJs\Styles\jquery.chatjs.css" />
-    <Content Include="Content\Styles\prettify.css" />
+    <Compile Include="Controllers\CheckoutController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

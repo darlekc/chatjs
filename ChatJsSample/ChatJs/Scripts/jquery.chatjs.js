@@ -156,6 +156,7 @@
         this.defaults = {
             myUser: null,
             otherUser: null,
+            typingText: null,
             initialToggleState: "maximized",
             initialFocusState: "focused",
             userIsOnline: false,
@@ -343,7 +344,7 @@
             var _this = this;
             if (_this.$typingSignal)
                 _this.$typingSignal.remove();
-            _this.$typingSignal = $("<p/>").addClass("typing-signal").text(user.Name + " está digitando...");
+            _this.$typingSignal = $("<p/>").addClass("typing-signal").text(user.Name + _this.opts.typingText);
             _this.chatContainer.$windowInnerContent.after(_this.$typingSignal);
             if (_this.typingSignalTimeout)
                 clearTimeout(_this.typingSignalTimeout);
@@ -392,7 +393,10 @@
         // Defaults:
         _this.defaults = {
             user: null,
-            adapter: null
+            adapter: null,
+            titleText: 'Chat',
+            emptyRoomText: "There's no other users",
+            typingText: " is typing..."
         };
 
         //Extending options:
@@ -454,6 +458,7 @@
                 initialFocusState: initialFocusState,
                 userIsOnline: otherUser.Status == 1,
                 adapter: _this.opts.adapter,
+                typingText: _this.opts.typingText,
                 onClose: function () {
                     delete _this.chatWindows[otherUser.Id];
                     $.organizeChatContainers();
@@ -476,7 +481,7 @@
             var _this = this;
             _this.chatContainer.getContent().html('');
             if (data.length == 1) {
-                $("<div/>").addClass("user-list-empty").text("Não existem outros usuários").appendTo(_this.chatContainer.getContent());
+                $("<div/>").addClass("user-list-empty").text(_this.opts.emptyRoomText).appendTo(_this.chatContainer.getContent());
             }
             else {
                 var indexedData = new Object();
@@ -585,7 +590,7 @@
                 mainChatWindowChatState = "maximized";
 
             _this.chatContainer = $.chatContainer({
-                title: "Bate-papo",
+                title: _this.opts.titleText,
                 showTextBox: false,
                 canClose: false,
                 initialToggleState: mainChatWindowChatState,

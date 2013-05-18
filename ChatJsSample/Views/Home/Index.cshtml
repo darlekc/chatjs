@@ -11,8 +11,8 @@
     <script src="/signalr/hubs" type="text/javascript"></script>
     <script src="/ChatJs/Scripts/jquery.chatjs.signalradapter.js" type="text/javascript"></script>
     <script src="/ChatJs/Scripts/jquery.chatjs.js" type="text/javascript"></script>
-    <script src="/Scripts/prettify.js" type="text/javascript"></script>
     <script src="/Scripts/scripts.js" type="text/javascript"></script>
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
     <!--Styles-->
     <link rel="stylesheet" type="text/css" href="/Content/Styles/styles.css" />
     <link rel="stylesheet" type="text/css" href="/ChatJs/Styles/jquery.chatjs.css" />
@@ -27,7 +27,7 @@
         ga('create', 'UA-41028546-1', 'chatjs.net');
         ga('send', 'pageview');
 
-</script>
+    </script>
     @if (this.Model != null && this.Model.IsUserAuthenticated)
     {
         <script type="text/javascript">
@@ -39,6 +39,12 @@
                         Name: '@this.Model.UserName',
                         ProfilePictureUrl: '@Html.Raw(this.Model.UserProfilePictureUrl)'
                     },
+                    // text displayed when the other user is typing
+                    typingText: ' is typing...',
+                    // the title for the user's list window
+                    titleText: 'ChatJs demo chat',
+                    // text displayed when there's no other users in the room
+                    emptyRoomText: "There's no one around here.",
                     // the adapter you are using
                     adapter: new SignalRAdapter()
                 });
@@ -66,7 +72,7 @@
                 {
                     <a id="joinChatButton" href="#" class="btn btn-info btn-large">Join demo chat</a>
                     <img class="callout" src="/Content/Images/callout.png" />
-                }                
+                }
             </div>
             <div class="screenshot-wrapper">
                 <img src="/Content/Images/screenshot.png" />
@@ -81,13 +87,13 @@
                 </h4>
                 <p>
                     The client part is divided in two JavaScript files.
-                        The file <span class="text-info">jquery.chatjs.js</span> contains the main jQuery plugin <code>$.chat()</code> and <span class="text-info">jquery.chatjs.signalradapter.js</span> contains
-                        the adapter function needed to tell the plug-in how to interact with the server.
+                    The file <span class="text-info">jquery.chatjs.js</span> contains the main jQuery plugin <code>$.chat()</code> and <span class="text-info">jquery.chatjs.signalradapter.js</span> contains
+                    the adapter function needed to tell the plug-in how to interact with the server.
                 </p>
                 <div class="bs-docs-example">
-                    <p>Once the server is set up, the client code is quite simple. Basic usage:</p>
+                    <p>Once the server is set up, the client code is quite simple. The complete usage with all options is this:</p>
                 </div>
-                <pre class="prettyprint">
+                <pre class="prettyprint ">
 $.chat({
     // your user information
     user: {
@@ -95,6 +101,12 @@ $.chat({
         Name: 'John Silver',
         ProfilePictureUrl: 'http://www.foo.com/avatar/123'
     },
+    // text displayed when the other user is typing
+    typingText: ' is typing...',
+    // the title for the user's list window
+    titleText: 'ChatJs demo chat',
+    // text displayed when there's no other users in the room
+    emptyRoomText: "There's no one around here.",
     // the adapter you are using
     adapter: new SignalRAdapter()
 });
@@ -111,38 +123,37 @@ $.chat({
                     <li>Supports multiple chat rooms. If you have a multi-tenancy app you can create a room for each tenancy, for instance.</li>
                     <li>Supports multiple browser windows opened with the same session. They all get properly sinchronized.</li>
                     <li>Customizable texts. You can easily translate it to your language.</li>
-                    <li>Both client and server code ready to be used for <a href="http://signalr.net/">ASP.NET with SignalR</a>. Development version available with fully commented source code. The pieces of server code that need to be implemented to add message database persistence and to
-                            retrieve user information are already implemented in commented code to make your life easier. Just follow the manual and get it running fast.</li>
+                    <li>Both client and server code ready to be used for <a href="http://signalr.net/">ASP.NET with SignalR</a>.</li>
                 </ul>
+                <h4>License:</h4>
+                <p>ChatJS is provided in a non-commercial BSD license. More details <a href="#license">here</a>.</p>
             </div>
-        </div>
-        <div class="row">
-            <div class="span12">
-                <h3>License:</h3>
-                <p>ChatJS is open-source and licensed under a non-comercial BSD license.</p>
-                <p>
-                    Now in plain English: If you do not directly or indirectly charge your users at any plan, ChatJS is free to use, even if your application is not open-source. You can even redistribute ChatJS source code as long as you do not charge your custumers 
-                    or remove the licensing headers from the JavaScript and CSS files. If you need a commercial license, it's <code>$49</code>
-                . This fee gives you the right to use the code forever, royalty-free with 1 year of free updates. The commercial
-                    license allows you to do whatever you want with the code, like deploying to unlimited domains or redistributing it to your customers. The only restriction for the commercial license is that you cannot resell ChatJS as an individual product.
-            </div>
-
         </div>
         <div class="row">
             <div class="span12">
                 <h3>How to get ChatJS up and running in your environment</h3>
+                <h4>The server</h4>
                 <p>
                     As I said, ChatJS only works out of the box with <a href="http://signalr.net/">ASP.NET with SignalR</a>, so, this manual will be focused in this scenario.
-                        Everything that I'll explain here is implemented already in the demo application available in the <a href="#">ChatJS package</a>. It's highly recommended that
-                        will download that before continuing with this manual. First thing to do is to download SignalR if you haven't already. To do so, in Visual Studio, select the Tools menu, and then Library Package Manager and then select Package Manager console. Now type in the following line: 
+                    Everything that I'll explain here is implemented already in the demo application available in the <a href="#">ChatJS package</a>. It's highly recommended that
+                    will download that before continuing with this manual. First thing to do is to download SignalR if you haven't already. To do so, in Visual Studio, select the Tools menu, and then Library Package Manager and then select Package Manager console. Now type in the following line: 
                 </p>
-                <pre>Install-Package Microsoft.AspNet.SignalR</pre>
+                <pre class="prettyprint">Install-Package Microsoft.AspNet.SignalR</pre>
                 <p>
-                    This will install all the packages needed to run SignalR. Now let's set up the code. First, go to your <code>HttpApplication</code> class, inside the <code>Application_Start</code> method and put this line: <code>RouteTable.Routes.MapHubs();</code>.
+                    This will install all the packages needed to run SignalR. Now let's set up the code. First, go to your <code>HttpApplication</code> class and put this in the <code>Application_Start</code> method:
+                    
+                    <pre  class="prettyprint">
+protected void Application_Start()
+{
+    //...
+    // add this line:
+    RouteTable.Routes.MapHubs();
+}
+</pre>
                     This will map the routes needed to make the server accessible to the client. Next, you need to add the necessary scripts in your Views, preferably the layout. Add the following lines:
                     
                 </p>
-                <pre>
+                <pre class="prettyprint">
 &lt;script src="/Scripts/jquery.signalR-1.1.0.min.js"&gt;&lt;/script&gt;
 &lt;script src="/signalr/hubs" type="text/javascript"&gt;&lt;/script&gt;
                 </pre>
@@ -152,49 +163,116 @@ $.chat({
                 </p>
                 <p>
                     Now you need a Hub. A Hub is a high level SignalR class that allows for
-                        seemless client/server communication. Once the Hub is registed, it's possible for the client to call a Hub public method and it's possible for the Hub to call a client method.
-                        Your new Hub needs to enherit from the <code>Hub</code> class and implement this interface (C#). This interface represents the methods that the client can call in the server:
+                    seemless client/server communication. Once the Hub is registed, it's possible for the client to call a Hub public method and it's possible for the Hub to call a client method.
+                    Your new Hub needs to enherit from the <code>Hub</code> class and implement <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJsSample/Code/IChatHub.cs">this interface</a>.
+                    The <code>IChatHub</code> interface forces you to implement methods in the server that are going to be called from the <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJsSample/ChatJs/Scripts/jquery.chatjs.signalradapter.js">client adapter</a>.
+                    While implementing your own <code>ChatHub</code>, you should consider the <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJsSample/Code/ChatHub.cs">sample implementation</a>. 
+                    Even though it's not meant to be used in production, it gives you a good idea of what to do in each method. All you have to do is to replace the code that deals with the logged user, as well
+                    as the code that persists and queries chat messages. You are probably using some database for that.
                 </p>
-                <pre>
-<code>public interface IChatHub
-{
-    /// &lt;summary&gt;
-    /// Returns the message history between the current user and another user
-    /// &lt;/summary&gt;
-    List&lt;ChatMessage&gt; GetMessageHistory(int otherUserId);
-
-    /// &lt;summary&gt;
-    /// Sends a message to a another user
-    /// &lt;/summary&gt;
-    void SendMessage(int otherUserId, string message, string clientGuid);
-
-    /// &lt;summary&gt;
-    /// Sends a typing signal to a another user
-    /// &lt;summary&gt;
-    void SendTypingSignal(int otherUserId);
-
-    /// &lt;summary&gt;
-    /// When a new client connects
-    /// &lt;summary&gt;
-    System.Threading.Tasks.Task OnConnected();
-
-    /// &lt;summary&gt;
-    /// When a client disconnectes
-    /// &lt;summary&gt;
-    System.Threading.Tasks.Task OnDisconnected();
-}
-</code>
+                <h4>The client</h4>
+                <p>
+                    ChatJS has two JavaScript files: <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJs/Scripts/jquery.chatjs.signalradapter.js">jquery.chatjs.signalradapter.js</a> and <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJs/Scripts/jquery.chatjs.js">jquery.chatjs.js</a>.
+                    The first one is responsible for the client/server communication. ChatJs itself doesn't know how to communicate to the server, it needs an adapter.
+                    If you are using SignalR, you can use the existing adapter without changing anything. If you are implementing your own long polling, for instance, you could
+                    create a jquery.chatjs.longpolling.js adapter.
+                    As you can see <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJs/Scripts/jquery.chatjs.signalradapter.js">in the code</a>, the client adapter
+                    has two roles: The first one is to expose client functions that are callable from the server. Here is an example:
+                </p>
+                <pre class="prettyprint">
+_this.hub = $.connection.chatHub;
+_this.hub.client.sendMessage = function (message) {
+    chat.client.sendMessage(message);
+};
 </pre>
                 <p>
-                    Your interface does not need to be exacly this. It's not a strongly typed reference. All that matters is that the names of the methods that the client will
-                        call must match the server method names. In this case, the JavaScript file <span class="text-info">jquery.chatjs.signalradapter.js</span> already expects your Hub to contain these methods
-                        so it's easier just to name your methods like this. This interface is just to make things easier and to prevent errors.
+                    This is code is implementing a client method called <code>sendMessage</code> that is callable from the server. Every function in the <code>$.connection.chatHub</code> object
+                    is called from the server. If we weren't using SignalR, we could implement a long polling in the client that calls particular functions based on a parameter the server returns from 
+                    the long polling. That would be similar. Back to SignalR, just so you're clear, here an example of server code calling this function from within <code>ChatHub</code> (C#) :
                 </p>
+                <pre  class="prettyprint">
+this.Clients.Client(connectionId).sendMessage(this.GetChatMessage(dbChatMessage, clientGuid));
+</pre>
+                <p>
+                    In this example, <code>this.Clients</code> is the list of client connections. You you're calling a client you must specify which one. If you are sending
+                    a message to the user which the Id is 19, for instance, you have to manually track which client connections correspond to the user 19. Yes, there's more than one,
+                    because the user Id may have 3 browser tabs opened with the same session, so each user has a list of connections. In the case of <code>ChatHub</code>, the connections
+                    are tracked using a <code>Dictionary&lt;string, Dictionary&lt;int, List&lt;string&gt;&gt;&gt;</code>. The outer dictionary is to store rooms and the internal one
+                    is to keep track of what connections correspond to what user. They dictionary keys are respectively the room id and the user id.
+                </p>
+                <p>
+                    Now back to the client. The second role of the <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJs/Scripts/jquery.chatjs.signalradapter.js">adapter</a> is to 
+                    expose a means for the plug-in to contact the server. Intead of requesting the server directly, the plug-in will will call the adapter everytime it needs something. All methods in the
+                    adapter that have the role of calling the server are under the server object. Example:
+                </p>
+                <pre  class="prettyprint">
+_this.server.sendMessage = function (otherUserId, messageText, clientGuid, done) {
+    _this.hub.server.sendMessage(otherUserId, messageText, clientGuid).done(function (result) {
+        if (done)
+            done(result);
+    });
+};
+</pre>
+                <p>When ChatJs whats to send a message, it will call this function in the adapter. If we weren't using SignalR, we could simply make regular HttpRequests to call the server. That would be the same.</p>
+                <p>
+                    Now, about the <a href="https://github.com/andrerpena/chatjs/blob/gh-pages/ChatJs/Scripts/jquery.chatjs.js">jquery.chatjs.js</a> itself. There's not much to be done and it hasn't many options.
+                    The complete usage is like this:
+                </p>
+                <pre class="prettyprint">
+$.chat({
+    // your user information
+    user: {
+        Id: 3,
+        Name: 'John Silver',
+        ProfilePictureUrl: 'http://www.foo.com/avatar/123'
+    },
+    // text displayed when the other user is typing
+    typingText: ' is typing...',
+    // the title for the user's list window
+    titleText: 'ChatJs demo chat',
+    // text displayed when there's no other users in the room
+    emptyRoomText: "There's no one around here.",
+    // the adapter you are using
+    adapter: new SignalRAdapter()
+});
+</pre>
             </div>
 
 
         </div>
+
+        <div class="row">
+            <div class="span12">
+                <h3>About the author</h3>
+                <p>
+                    Hello everyone, my name is André Pena. I'm a .NET developer from Brazil. I hope you will enjoy ChatJs. If you have any problems you can post a <a href="https://github.com/andrerpena/chatjs/issues">GitHub issue</a>.
+                    You can reach me out at <a href="mailto:andrerpena@gmail.com">andrerpena@gmail.com</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="span12">
+                <h3>License:</h3>
+                <a name="license"></a>
+                <p>ChatJS is open-source and licensed under a non-comercial BSD license.</p>
+                <p>
+                    Now in plain English: If you do not directly or indirectly charge your users at any plan, ChatJS is free to use, even if your application is not open-source. You can even redistribute ChatJS source code as long as you do not charge your custumers 
+                    or remove the licensing headers from the JavaScript and CSS files. If you need a commercial license, it's <code>$49</code>
+                    . This fee gives you the right to use the code forever, royalty-free with 1 year of free updates. The commercial
+                    license allows you to do whatever you want with the code, like deploying to unlimited domains or redistributing it to your customers. The only restriction for the commercial license is that you cannot resell ChatJS as an individual product.
+                </p>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="95CAPPDB84GYQ">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+            </div>
+        </div>
     </div>
+    
+    
 
     <!-- Modal -->
     <div id="loginModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -224,5 +302,7 @@ $.chat({
             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
         </div>
     </div>
+    
+    <footer>&copy;2013 All rights reserved.</footer>
 </body>
 </html>

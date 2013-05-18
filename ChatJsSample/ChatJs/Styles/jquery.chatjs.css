@@ -33,7 +33,7 @@
     }
 
     .chat-window-title .close {
-        background-image: url("/ChatJs/Images/chat/clear.png");
+        background-image: url("/ChatJs/Images/clear.png");
         float: right;
         height: 16px;
         width: 16px;
