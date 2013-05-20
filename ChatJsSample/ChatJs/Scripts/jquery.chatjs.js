@@ -223,6 +223,38 @@
                 return $element.html(replacedText);
             }
 
+            function emotify($element) {
+                var inputText = $element.html();
+                var replacedText = inputText;
+
+                var emoticons = [
+                    { pattern: ":-\)", cssClass: "happy" },
+                    { pattern: ":\)", cssClass: "happy" },
+                    { pattern: "=\)", cssClass: "happy" },
+                    { pattern: ":-D", cssClass: "very-happy" },
+                    { pattern: ":D", cssClass: "very-happy" },
+                    { pattern: "=D", cssClass: "very-happy" },
+                    { pattern: ":-\(", cssClass: "sad" },
+                    { pattern: ":\(", cssClass: "sad" },
+                    { pattern: "=\(", cssClass: "sad" },
+                    { pattern: ":-\|", cssClass: "wary" },
+                    { pattern: ":\|", cssClass: "wary" },
+                    { pattern: "=\|", cssClass: "wary" },
+                    { pattern: ":-O", cssClass: "astonished" },
+                    { pattern: ":O", cssClass: "astonished" },
+                    { pattern: "=O", cssClass: "astonished" },
+                    { pattern: ":-P", cssClass: "tongue" },
+                    { pattern: ":P", cssClass: "tongue" },
+                    { pattern: "=P", cssClass: "tongue" }
+                ];
+
+                for (var i = 0; i < emoticons.length; i++) {
+                    replacedText = replacedText.replace(emoticons[i].pattern, "<span class='" + emoticons[i].cssClass + "'></span>");
+                }
+
+                return $element.html(replacedText);
+            }
+
             if (message.ClientGuid && $("p[data-val-client-guid='" + message.ClientGuid + "']").length) {
                 // in this case, this message is comming from the server AND the current user POSTED the message.
                 // so he/she already has this message in the list. We DO NOT need to add the message.
@@ -231,7 +263,9 @@
                 var $messageP = $("<p/>").text(message.Message);
                 if (clientGuid)
                     $messageP.attr("data-val-client-guid", clientGuid).addClass("temp-message");
+
                 linkify($messageP);
+                emotify($messageP);
 
                 // gets the last message to see if it's possible to just append the text
                 var $lastMessage = $("div.chat-message:last", _this.chatContainer.$windowInnerContent);
@@ -263,7 +297,7 @@
             /// <summary>Sends a message to the other user</summary>
             /// <param name="messageText" type="String">Message being sent</param>
             var _this = this;
-            
+
             var generateGuidPart = function () {
                 return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
             };
@@ -423,7 +457,7 @@
         //Privates:
         _this.$el = null;
 
-        
+
 
         // there will be one property on this object for each user in the chat
         // the property name is the other user id (toStringed)

@@ -140,6 +140,12 @@
     <Compile Include="Code\Filters\CanonicalUrlFilter.cs" />
     <Compile Include="Code\GravatarHelper.cs" />
     <Compile Include="Code\IChatHub.cs" />
+    <Content Include="ChatJs\Images\Emoticons\smile-1.png" />
+    <Content Include="ChatJs\Images\Emoticons\smile-2.png" />
+    <Content Include="ChatJs\Images\Emoticons\smile-3.png" />
+    <Content Include="ChatJs\Images\Emoticons\smile-4.png" />
+    <Content Include="ChatJs\Images\Emoticons\smile-5.png" />
+    <Content Include="ChatJs\Images\Emoticons\smile-6.png" />
     <Content Include="ChatJs\license.txt" />
     <Content Include="ChatJs\Sounds\chat.mp3" />
     <Content Include="ChatJs\Sounds\chat.wav" />

@@ -18,7 +18,7 @@
 
 .chat-window {
     background-color: White;
-    border-color: #D7D7D7;
+    border-color: #A7A7A7;
     border-image: none;
     border-style: solid;
     border-width: 1px 1px 0;
@@ -191,3 +191,51 @@ input.chat-window-text-box {
         transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
         height: auto;
     }
+
+.happy {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("/ChatJs/Images/Emoticons/smile-2.png");
+    vertical-align: top;
+}
+
+.very-happy {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("/ChatJs/Images/Emoticons/smile-1.png");
+    vertical-align: top;
+}
+
+.sad {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("/ChatJs/Images/Emoticons/smile-3.png");
+    vertical-align: top;
+}
+
+.wary {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("/ChatJs/Images/Emoticons/smile-4.png");
+    vertical-align: top;
+}
+
+.astonished {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("/ChatJs/Images/Emoticons/smile-5.png");
+    vertical-align: top;
+}
+
+.tongue {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url("/ChatJs/Images/Emoticons/smile-6.png");
+    vertical-align: top;
+}
