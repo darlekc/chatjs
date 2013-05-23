@@ -457,8 +457,6 @@
         //Privates:
         _this.$el = null;
 
-
-
         // there will be one property on this object for each user in the chat
         // the property name is the other user id (toStringed)
         _this.chatWindows = new Object();
@@ -532,7 +530,7 @@
             /// <param name="data" type="Array">List of users</param>
             var _this = this;
             _this.chatContainer.getContent().html('');
-            if (data.length == 1) {
+            if (data.length <= 1) {
                 $("<div/>").addClass("user-list-empty").text(_this.opts.emptyRoomText).appendTo(_this.chatContainer.getContent());
             }
             else {
@@ -573,14 +571,14 @@
                         })(i);
                     }
                 }
-
-                // update the online status of the remaining windows
-                for (var i in _this.chatWindows) {
-                    if (indexedData[i])
-                        _this.chatWindows[i].setOnlineStatus(indexedData[i].Status == 1);
-                    else
-                        _this.chatWindows[i].setOnlineStatus(false);
-                }
+            }
+            
+            // update the online status of the remaining windows
+            for (var i in _this.chatWindows) {
+                if (indexedData && indexedData[i])
+                    _this.chatWindows[i].setOnlineStatus(indexedData[i].Status == 1);
+                else
+                    _this.chatWindows[i].setOnlineStatus(false);
             }
 
             _this.chatContainer.setVisible(true);

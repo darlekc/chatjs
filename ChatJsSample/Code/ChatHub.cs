@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using ChatJsSample.Models;
 using ChatJsSample.Models.Database;
 using Microsoft.AspNet.SignalR;
@@ -286,11 +288,27 @@ namespace ChatJsSample.Code
                         {
                             connections[myRoomId][myUserId].Remove(this.Context.ConnectionId);
                             if (!connections[myRoomId][myUserId].Any())
+                            {
                                 connections[myRoomId].Remove(myUserId);
+                                Task.Run(() =>
+                                    {
+                                        // this will run in separate thread.
+                                        // If the user is away for more than 10 seconds it will be removed from 
+                                        // the room
+                                        Thread.Sleep(10000);
+                                        if (!connections[myRoomId].ContainsKey(myUserId))
+                                        {
+                                            var myDbUser = dbUsersStub.FirstOrDefault(u => u.Id == myUserId);
+                                            if (myDbUser != null)
+                                            {
+                                                dbUsersStub.Remove(myDbUser);
+                                                this.BroadcastUsersList();
+                                            }
+                                        }
+                                    });
+                            }
                         }
             }
-
-            this.BroadcastUsersList();
 
             return base.OnDisconnected();
         }
