@@ -294,7 +294,9 @@ namespace ChatJsSample.Code
                                     {
                                         // this will run in separate thread.
                                         // If the user is away for more than 10 seconds it will be removed from 
-                                        // the room
+                                        // the room.
+                                        // In a normal situation this wouldn't be done because normally the users in a
+                                        // chat room are fixed, like when you have 1 chat room for each tenancy
                                         Thread.Sleep(10000);
                                         if (!connections[myRoomId].ContainsKey(myUserId))
                                         {
