@@ -1,4 +1,22 @@
-﻿// CHAT CONTAINER
+﻿/**
+ * ChatJS 1.0
+ * www.chatjs.net
+ * 
+ * Copyright (c) 2013, André Pena
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms,
+ * with or without modification, are permitted provided
+ * that the following conditions are met:
+ * 
+ *     - Redistributions of source code must retain the above copyright notice,
+ *       this list of conditions and the following disclaimer.
+ * 
+ *     - The software containing ChatJS must not directly or indirectly charge the
+ *       end user at any plan. Otherwise a commercial license is required.
+ **/
+
+// CHAT CONTAINER
 (function ($) {
     function ChatContainer(options) {
         /// <summary>This is a window container, responsible for hosting both the users list and the chat window </summary>
@@ -156,6 +174,7 @@
         this.defaults = {
             myUser: null,
             otherUser: null,
+            typingText: null,
             initialToggleState: "maximized",
             initialFocusState: "focused",
             userIsOnline: false,
@@ -204,6 +223,38 @@
                 return $element.html(replacedText);
             }
 
+            function emotify($element) {
+                var inputText = $element.html();
+                var replacedText = inputText;
+
+                var emoticons = [
+                    { pattern: ":-\)", cssClass: "happy" },
+                    { pattern: ":\)", cssClass: "happy" },
+                    { pattern: "=\)", cssClass: "happy" },
+                    { pattern: ":-D", cssClass: "very-happy" },
+                    { pattern: ":D", cssClass: "very-happy" },
+                    { pattern: "=D", cssClass: "very-happy" },
+                    { pattern: ":-\(", cssClass: "sad" },
+                    { pattern: ":\(", cssClass: "sad" },
+                    { pattern: "=\(", cssClass: "sad" },
+                    { pattern: ":-\|", cssClass: "wary" },
+                    { pattern: ":\|", cssClass: "wary" },
+                    { pattern: "=\|", cssClass: "wary" },
+                    { pattern: ":-O", cssClass: "astonished" },
+                    { pattern: ":O", cssClass: "astonished" },
+                    { pattern: "=O", cssClass: "astonished" },
+                    { pattern: ":-P", cssClass: "tongue" },
+                    { pattern: ":P", cssClass: "tongue" },
+                    { pattern: "=P", cssClass: "tongue" }
+                ];
+
+                for (var i = 0; i < emoticons.length; i++) {
+                    replacedText = replacedText.replace(emoticons[i].pattern, "<span class='" + emoticons[i].cssClass + "'></span>");
+                }
+
+                return $element.html(replacedText);
+            }
+
             if (message.ClientGuid && $("p[data-val-client-guid='" + message.ClientGuid + "']").length) {
                 // in this case, this message is comming from the server AND the current user POSTED the message.
                 // so he/she already has this message in the list. We DO NOT need to add the message.
@@ -212,7 +263,9 @@
                 var $messageP = $("<p/>").text(message.Message);
                 if (clientGuid)
                     $messageP.attr("data-val-client-guid", clientGuid).addClass("temp-message");
+
                 linkify($messageP);
+                emotify($messageP);
 
                 // gets the last message to see if it's possible to just append the text
                 var $lastMessage = $("div.chat-message:last", _this.chatContainer.$windowInnerContent);
@@ -244,7 +297,7 @@
             /// <summary>Sends a message to the other user</summary>
             /// <param name="messageText" type="String">Message being sent</param>
             var _this = this;
-            
+
             var generateGuidPart = function () {
                 return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
             };
@@ -343,7 +396,7 @@
             var _this = this;
             if (_this.$typingSignal)
                 _this.$typingSignal.remove();
-            _this.$typingSignal = $("<p/>").addClass("typing-signal").text(user.Name + " está digitando...");
+            _this.$typingSignal = $("<p/>").addClass("typing-signal").text(user.Name + _this.opts.typingText);
             _this.chatContainer.$windowInnerContent.after(_this.$typingSignal);
             if (_this.typingSignalTimeout)
                 clearTimeout(_this.typingSignalTimeout);
@@ -392,7 +445,10 @@
         // Defaults:
         _this.defaults = {
             user: null,
-            adapter: null
+            adapter: null,
+            titleText: 'Chat',
+            emptyRoomText: "There's no other users",
+            typingText: " is typing..."
         };
 
         //Extending options:
@@ -400,8 +456,6 @@
 
         //Privates:
         _this.$el = null;
-
-        
 
         // there will be one property on this object for each user in the chat
         // the property name is the other user id (toStringed)
@@ -454,6 +508,7 @@
                 initialFocusState: initialFocusState,
                 userIsOnline: otherUser.Status == 1,
                 adapter: _this.opts.adapter,
+                typingText: _this.opts.typingText,
                 onClose: function () {
                     delete _this.chatWindows[otherUser.Id];
                     $.organizeChatContainers();
@@ -475,8 +530,8 @@
             /// <param name="data" type="Array">List of users</param>
             var _this = this;
             _this.chatContainer.getContent().html('');
-            if (data.length == 1) {
-                $("<div/>").addClass("user-list-empty").text("Não existem outros usuários").appendTo(_this.chatContainer.getContent());
+            if (data.length <= 1) {
+                $("<div/>").addClass("user-list-empty").text(_this.opts.emptyRoomText).appendTo(_this.chatContainer.getContent());
             }
             else {
                 var indexedData = new Object();
@@ -516,14 +571,14 @@
                         })(i);
                     }
                 }
-
-                // update the online status of the remaining windows
-                for (var i in _this.chatWindows) {
-                    if (indexedData[i])
-                        _this.chatWindows[i].setOnlineStatus(indexedData[i].Status == 1);
-                    else
-                        _this.chatWindows[i].setOnlineStatus(false);
-                }
+            }
+            
+            // update the online status of the remaining windows
+            for (var i in _this.chatWindows) {
+                if (indexedData && indexedData[i])
+                    _this.chatWindows[i].setOnlineStatus(indexedData[i].Status == 1);
+                else
+                    _this.chatWindows[i].setOnlineStatus(false);
             }
 
             _this.chatContainer.setVisible(true);
@@ -585,7 +640,7 @@
                 mainChatWindowChatState = "maximized";
 
             _this.chatContainer = $.chatContainer({
-                title: "Bate-papo",
+                title: _this.opts.titleText,
                 showTextBox: false,
                 canClose: false,
                 initialToggleState: mainChatWindowChatState,
